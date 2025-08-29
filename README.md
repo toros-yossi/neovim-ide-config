@@ -16,9 +16,9 @@ A complete Neovim IDE setup with LSP support, AI integration, and modern develop
 - **Task Management**: Full Taskfile.yml support with task runner integration
 
 ### 🤖 AI Integration
-- **Claude Integration**: AI-powered code editing and chat via Avante.nvim
-- **Inline Editing**: Select code and refactor with AI assistance
-- **Code Generation**: AI-powered code suggestions and completions
+- **Claude Code Integration**: AI-powered code editing and chat via Claude CLI
+- **Interactive Assistance**: Ask questions and get code help directly in terminal
+- **Code Analysis**: AI-powered code review and suggestions
 
 ### 📁 File Management
 - **File Explorer**: nvim-tree with intuitive navigation
@@ -39,8 +39,8 @@ A complete Neovim IDE setup with LSP support, AI integration, and modern develop
 # Install Neovim
 brew install neovim
 
-# Set Claude API key
-export ANTHROPIC_API_KEY="your-api-key-here"
+# Install Claude Code (for AI integration)
+brew install claude
 
 # Optional: Install language tools for full LSP support
 brew install go          # For Go development (gopls)
@@ -48,7 +48,7 @@ brew install rust        # For Rust development (rust-analyzer)
 brew install llvm        # For C/C++ development (clangd)
 ```
 
-**Note**: Language servers are installed conditionally based on available tools. Python, JavaScript/TypeScript, Java, Kotlin, and Lua work out of the box.
+**Note**: Language servers are installed conditionally based on available tools. Python, JavaScript/TypeScript, Java, Kotlin, and Lua work out of the box. Claude Code integration uses your existing Claude authentication.
 
 ### Setup
 ```bash
@@ -71,8 +71,8 @@ nvim
 | `<leader>sf` | Find Files | Fuzzy file finder |
 | `<leader>sg` | Search Text | Live grep search |
 | `<leader>ee` | File Explorer | Toggle file tree |
-| `<leader>aa` | AI Chat | Open Claude assistant |
-| `<leader>ae` | AI Edit | Edit selection with AI |
+| `<leader>cc` | Claude Chat | Ask Claude any question |
+| `<leader>ce` | Claude Edit | Edit selected code with Claude |
 | `<leader>gs` | Git Status | Interactive git interface |
 | `gd` | Go to Definition | Jump to symbol definition |
 | `K` | Documentation | Show hover docs |

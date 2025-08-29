@@ -65,6 +65,12 @@ return {
               nmap('<leader>wl', function()
                 print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
               end, '[W]orkspace [L]ist Folders')
+              
+              -- Add current directory as workspace folder
+              nmap('<leader>wac', function()
+                vim.lsp.buf.add_workspace_folder(vim.fn.getcwd())
+                print("Added " .. vim.fn.getcwd() .. " to workspace")
+              end, '[W]orkspace [A]dd [C]urrent directory')
 
               -- Create a command `:Format` local to the LSP buffer
               vim.api.nvim_buf_create_user_command(bufnr, 'Format', function(_)

@@ -7,8 +7,12 @@ A complete Neovim IDE setup with LSP support, AI integration, and modern develop
 ### 🛠️ Language Support
 - **Languages**: Lua, C/C++, Python, Go, JavaScript/TypeScript, Java, Rust, Kotlin
 - **LSP Integration**: Full language server protocol support
+- **Python Environments**: Poetry and uv support with auto-detection
+- **Virtual Environments**: Automatic venv selection and switching
 - **Syntax Highlighting**: TreeSitter-powered highlighting
 - **Auto-formatting**: Built-in code formatting
+- **Testing**: Integrated test runners (pytest, jest, cargo test, go test)
+- **Debugging**: Full DAP support with UI for all languages
 
 ### 🤖 AI Integration
 - **Claude Integration**: AI-powered code editing and chat via Avante.nvim
@@ -19,6 +23,8 @@ A complete Neovim IDE setup with LSP support, AI integration, and modern develop
 - **File Explorer**: nvim-tree with intuitive navigation
 - **Fuzzy Finder**: Telescope for lightning-fast file and text search
 - **Git Integration**: Visual git status, hunks, and operations
+- **Multi-Project Support**: Work with multiple related projects simultaneously
+- **Workspace Management**: Auto-detect and manage project workspaces
 
 ### 🔗 GitHub Integration
 - **Issue Management**: Create, edit, and manage GitHub issues
@@ -62,14 +68,46 @@ nvim
 | `<leader>gs` | Git Status | Interactive git interface |
 | `gd` | Go to Definition | Jump to symbol definition |
 | `K` | Documentation | Show hover docs |
+| `<leader>vs` | Virtual Environment | Select Python venv |
+| `<leader>pa` | Poetry Activate | Activate Poetry environment |
+| `<leader>tt` | Test | Run test under cursor |
+| `<leader>tf` | Test File | Run all tests in file |
+| `<leader>td` | Test Debug | Debug test under cursor |
+| `<leader>db` | Debug | Toggle breakpoint |
+| `<leader>dc` | Debug Continue | Start/continue debugging |
 
 ### Daily Workflow
 1. **Open project**: `nvim .`
-2. **Explore files**: `<leader>ee` or `<leader>sf`
-3. **Search code**: `<leader>sg`
-4. **Navigate code**: `gd`, `gr`, `K`
-5. **Edit with AI**: Select code → `<leader>ae`
-6. **Git workflow**: `<leader>gs` → stage → commit
+2. **Add related projects**: `<leader>wag` (auto-add git siblings) or `<leader>wap` (auto-add by patterns)
+3. **Explore files**: `<leader>ee` or `<leader>sf`
+4. **Search across projects**: `<leader>sg`
+5. **Navigate code**: `gd`, `gr`, `K` (works across all workspace folders)
+6. **Edit with AI**: Select code → `<leader>ae`
+7. **Git workflow**: `<leader>gs` → stage → commit
+
+### Multi-Project Workflow
+- `<leader>wag` - Add all git repositories in parent directory
+- `<leader>wap` - Add projects with common patterns (pyproject.toml, package.json, etc.)
+- `<leader>wl` - List current workspace folders
+- `<leader>wc` - Clear workspace (reset to current directory only)
+
+### Testing & Debugging Workflow
+**Testing:**
+- `<leader>tt` - Run test under cursor
+- `<leader>tf` - Run all tests in current file
+- `<leader>ts` - Run entire test suite
+- `<leader>tl` - Run last test
+- `<leader>td` - Debug test under cursor
+- `<leader>to` - Open test output
+
+**Debugging:**
+- `<leader>db` - Toggle breakpoint
+- `<leader>dc` - Start/continue debugging
+- `<leader>ds` - Step over
+- `<leader>di` - Step into
+- `<leader>do` - Step out
+- `<leader>du` - Toggle debug UI
+- `<leader>dt` - Terminate debug session
 
 ## Configuration Structure
 

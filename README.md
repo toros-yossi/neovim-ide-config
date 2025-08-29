@@ -13,6 +13,7 @@ A complete Neovim IDE setup with LSP support, AI integration, and modern develop
 - **Auto-formatting**: Built-in code formatting
 - **Testing**: Integrated test runners (pytest, jest, cargo test, go test)
 - **Debugging**: Full DAP support with UI for all languages
+- **Task Management**: Full Taskfile.yml support with task runner integration
 
 ### 🤖 AI Integration
 - **Claude Integration**: AI-powered code editing and chat via Avante.nvim
@@ -82,6 +83,8 @@ nvim
 | `<leader>td` | Test Debug | Debug test under cursor |
 | `<leader>db` | Debug | Toggle breakpoint |
 | `<leader>dc` | Debug Continue | Start/continue debugging |
+| `<leader>tr` | Task Run | Run Taskfile task |
+| `<leader>tl` | Task List | List all available tasks |
 
 ### Daily Workflow
 1. **Open project**: `nvim .`
@@ -115,6 +118,17 @@ nvim
 - `<leader>do` - Step out
 - `<leader>du` - Toggle debug UI
 - `<leader>dt` - Terminate debug session
+
+### Task Management Workflow
+**Taskfile.yml Support:**
+- `<leader>tr` - Run any Taskfile task (with completion)
+- `<leader>tl` - List all available tasks
+- `<leader>tt` - Toggle task runner panel
+- `<leader>tk` - Run specific task by name
+- `<leader>tb` - Quick: run 'build' task
+- `<leader>ts` - Quick: run 'start' task
+- `<leader>td` - Quick: run 'dev' task
+- `<leader>te` - Quick: run 'test' task
 
 ## Configuration Structure
 

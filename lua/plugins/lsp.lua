@@ -21,8 +21,30 @@ return {
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities = require('cmp_nvim_lsp').default_capabilities(capabilities)
 
-      -- Ensure the servers above are installed
+      -- Conditionally install language servers based on available tools
       local mason_lspconfig = require 'mason-lspconfig'
+      
+      -- Base servers that don't require external tools
+      local servers = {
+        'lua_ls',           -- Lua (built into Neovim)
+        'pyright',          -- Python (uses system Python)
+        'ts_ls',            -- TypeScript/JavaScript (uses Node.js)
+        'jdtls',            -- Java (will be handled by nvim-jdtls)
+        'kotlin_language_server', -- Kotlin
+      }
+      
+      -- Conditional servers based on available tools
+      if vim.fn.executable('go') == 1 then
+        table.insert(servers, 'gopls')
+      end
+      
+      if vim.fn.executable('rustc') == 1 then
+        table.insert(servers, 'rust_analyzer')
+      end
+      
+      if vim.fn.executable('clang') == 1 or vim.fn.executable('gcc') == 1 then
+        table.insert(servers, 'clangd')
+      end
 
       local on_attach = function(_, bufnr)
         local nmap = function(keys, func, desc)
@@ -62,63 +84,54 @@ return {
       end
 
       mason_lspconfig.setup {
-        ensure_installed = {
-          'lua_ls',
-          'rust_analyzer',
-          'pyright',
-          'ts_ls',
-          'gopls',
-          'clangd',
-          'jdtls',
-          'kotlin_language_server',
-        },
+        ensure_installed = servers,
         handlers = {
-        function(server_name)
-          require('lspconfig')[server_name].setup {
-            capabilities = capabilities,
-            on_attach = on_attach,
-          }
-        end,
-        ['rust_analyzer'] = function()
-          require('lspconfig').rust_analyzer.setup {
-            capabilities = capabilities,
-            on_attach = on_attach,
-            settings = {
-              ['rust-analyzer'] = {
-                imports = {
-                  granularity = {
-                    group = "module",
+          function(server_name)
+            require('lspconfig')[server_name].setup {
+              capabilities = capabilities,
+              on_attach = on_attach,
+            }
+          end,
+          ['rust_analyzer'] = function()
+            require('lspconfig').rust_analyzer.setup {
+              capabilities = capabilities,
+              on_attach = on_attach,
+              settings = {
+                ['rust-analyzer'] = {
+                  imports = {
+                    granularity = {
+                      group = "module",
+                    },
+                    prefix = "self",
                   },
-                  prefix = "self",
-                },
-                cargo = {
-                  buildScripts = {
-                    enable = true,
+                  cargo = {
+                    buildScripts = {
+                      enable = true,
+                    },
                   },
-                },
-                procMacro = {
-                  enable = true
+                  procMacro = {
+                    enable = true
+                  },
                 },
               },
-            },
-          }
-        end,
-        ['lua_ls'] = function()
-          require('lspconfig').lua_ls.setup {
-            capabilities = capabilities,
-            on_attach = on_attach,
-            settings = {
-              Lua = {
-                workspace = { checkThirdParty = false },
-                telemetry = { enable = false },
-                diagnostics = { disable = { 'missing-fields' } },
+            }
+          end,
+          ['lua_ls'] = function()
+            require('lspconfig').lua_ls.setup {
+              capabilities = capabilities,
+              on_attach = on_attach,
+              settings = {
+                Lua = {
+                  workspace = { checkThirdParty = false },
+                  telemetry = { enable = false },
+                  diagnostics = { disable = { 'missing-fields' } },
+                },
               },
-            },
-          }
-        end,
-        ['jdtls'] = function()
-          -- Java LSP is handled by nvim-jdtls plugin for better integration
-        end,
+            }
+          end,
+          ['jdtls'] = function()
+            -- Java LSP is handled by nvim-jdtls plugin for better integration
+          end,
         },
       }
     end,

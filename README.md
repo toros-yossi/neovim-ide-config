@@ -40,7 +40,14 @@ brew install neovim
 
 # Set Claude API key
 export ANTHROPIC_API_KEY="your-api-key-here"
+
+# Optional: Install language tools for full LSP support
+brew install go          # For Go development (gopls)
+brew install rust        # For Rust development (rust-analyzer)  
+brew install llvm        # For C/C++ development (clangd)
 ```
+
+**Note**: Language servers are installed conditionally based on available tools. Python, JavaScript/TypeScript, Java, Kotlin, and Lua work out of the box.
 
 ### Setup
 ```bash
@@ -132,15 +139,25 @@ nvim
 
 ## Supported Languages
 
-### LSP Servers Included
-- **Lua**: lua_ls
-- **C/C++**: clangd
-- **Python**: pyright  
-- **Go**: gopls
-- **JavaScript/TypeScript**: ts_ls
-- **Java**: jdtls
-- **Rust**: rust_analyzer
+### LSP Servers (Auto-detected)
+**Always Available:**
+- **Lua**: lua_ls (built-in)
+- **Python**: pyright (uses system Python)
+- **JavaScript/TypeScript**: ts_ls (uses Node.js)
+- **Java**: jdtls (managed by nvim-jdtls)
 - **Kotlin**: kotlin_language_server
+
+**Conditional (requires tools):**
+- **Go**: gopls (requires `go` command)
+- **Rust**: rust_analyzer (requires `rustc` command)
+- **C/C++**: clangd (requires `clang` or `gcc`)
+
+**Installing Optional Languages:**
+```bash
+brew install go          # Enables Go support
+brew install rust        # Enables Rust support  
+brew install llvm        # Enables C/C++ support
+```
 
 ### TreeSitter Parsers
 All major languages plus JSON, YAML, HTML, CSS, Markdown

@@ -24,19 +24,6 @@ return {
       -- Ensure the servers above are installed
       local mason_lspconfig = require 'mason-lspconfig'
 
-      mason_lspconfig.setup {
-        ensure_installed = {
-          'lua_ls',
-          'rust_analyzer',
-          'pyright',
-          'ts_ls',
-          'gopls',
-          'clangd',
-          'jdtls',
-          'kotlin_language_server',
-        },
-      }
-
       local on_attach = function(_, bufnr)
         local nmap = function(keys, func, desc)
           if desc then
@@ -74,7 +61,18 @@ return {
         end, { desc = 'Format current buffer with LSP' })
       end
 
-      mason_lspconfig.setup_handlers {
+      mason_lspconfig.setup {
+        ensure_installed = {
+          'lua_ls',
+          'rust_analyzer',
+          'pyright',
+          'ts_ls',
+          'gopls',
+          'clangd',
+          'jdtls',
+          'kotlin_language_server',
+        },
+        handlers = {
         function(server_name)
           require('lspconfig')[server_name].setup {
             capabilities = capabilities,
@@ -121,6 +119,7 @@ return {
         ['jdtls'] = function()
           -- Java LSP is handled by nvim-jdtls plugin for better integration
         end,
+        },
       }
     end,
   },

@@ -16,9 +16,11 @@ A complete Neovim IDE setup with LSP support, AI integration, and modern develop
 - **Task Management**: Full Taskfile.yml support with task runner integration
 
 ### 🤖 AI Integration
-- **Claude Code Integration**: AI-powered code editing and chat via Claude CLI
-- **Interactive Assistance**: Ask questions and get code help directly in terminal
-- **Code Analysis**: AI-powered code review and suggestions
+- **Claude Code Integration**: Full conversational AI experience with session persistence
+- **Multiple Context Options**: Start Claude with file, selection, or project context
+- **Session Management**: Resume previous conversations and maintain context
+- **Interactive Terminal**: True conversational experience, not just one-off questions
+- **Code Analysis**: AI-powered code review, refactoring, and architectural guidance
 
 ### 📁 File Management
 - **File Explorer**: nvim-tree with intuitive navigation
@@ -48,7 +50,7 @@ brew install rust        # For Rust development (rust-analyzer)
 brew install llvm        # For C/C++ development (clangd)
 ```
 
-**Note**: Language servers are installed conditionally based on available tools. Python, JavaScript/TypeScript, Java, Kotlin, and Lua work out of the box. Claude Code integration uses your existing Claude authentication.
+**Note**: Language servers are installed conditionally based on available tools. Python, JavaScript/TypeScript, Java, Kotlin, and Lua work out of the box. Claude Code integration provides conversational AI sessions using your existing Claude authentication.
 
 ### Setup
 ```bash
@@ -71,8 +73,11 @@ nvim
 | `<leader>sf` | Find Files | Fuzzy file finder |
 | `<leader>sg` | Search Text | Live grep search |
 | `<leader>ee` | File Explorer | Toggle file tree |
-| `<leader>cc` | Claude Chat | Ask Claude any question |
-| `<leader>ce` | Claude Edit | Edit selected code with Claude |
+| `<leader>cc` | Claude Interactive | Start conversational Claude session |
+| `<leader>cr` | Claude Resume | Continue last Claude conversation |
+| `<leader>cf` | Claude File | Start Claude with current file context |
+| `<leader>cs` | Claude Selection | Start Claude with selected text (visual mode) |
+| `<leader>cp` | Claude Project | Start Claude with project directory context |
 | `<leader>gs` | Git Status | Interactive git interface |
 | `gd` | Go to Definition | Jump to symbol definition |
 | `K` | Documentation | Show hover docs |
@@ -86,13 +91,36 @@ nvim
 | `<leader>tr` | Task Run | Run Taskfile task |
 | `<leader>tl` | Task List | List all available tasks |
 
+## Claude AI Integration Usage
+
+### Starting Claude Sessions
+- **`<leader>cc`** - Start new interactive Claude session (full conversational experience)
+- **`<leader>cr`** - Resume your most recent Claude conversation
+- **`<leader>cf`** - Start Claude with current file as context
+- **`<leader>cs`** - Start Claude with selected text as context (visual mode)
+- **`<leader>cp`** - Start Claude with entire project directory as context
+
+### Claude Session Tips
+1. **Use `/clear`** in Claude to reset context between different tasks
+2. **Use arrow keys** to navigate through conversation history
+3. **Use `@filename`** to reference specific files during conversation
+4. **Use `/add-dir path`** to add directory context during session
+5. **Exit Claude** with `Ctrl+D` or type `/exit`
+
+### Effective Claude Workflows
+**Code Review**: `<leader>cf` → Ask Claude to review the current file
+**Refactoring**: Select code → `<leader>cs` → "How can I refactor this?"
+**Architecture**: `<leader>cp` → "Analyze this project's architecture"
+**Debugging**: `<leader>cf` → "Help me debug this function"
+**Learning**: `<leader>cs` → "Explain this code pattern"
+
 ### Daily Workflow
 1. **Open project**: `nvim .`
 2. **Add related projects**: `<leader>wag` (auto-add git siblings) or `<leader>wap` (auto-add by patterns)
 3. **Explore files**: `<leader>ee` or `<leader>sf`
 4. **Search across projects**: `<leader>sg`
 5. **Navigate code**: `gd`, `gr`, `K` (works across all workspace folders)
-6. **Edit with AI**: Select code → `<leader>ae`
+6. **AI assistance**: `<leader>cc` (new session) or `<leader>cr` (continue)
 7. **Git workflow**: `<leader>gs` → stage → commit
 
 ### Multi-Project Workflow
@@ -130,6 +158,26 @@ nvim
 - `<leader>td` - Quick: run 'dev' task
 - `<leader>te` - Quick: run 'test' task
 
+## Cross-IDE Claude Integration
+
+This Neovim configuration provides full conversational Claude experience. For similar functionality across other IDEs:
+
+### VSCode & Compatible Editors
+- **Auto-install**: Run `claude` in integrated terminal, then use **Cmd+Esc** (Mac) or **Ctrl+Esc** (Windows/Linux)
+- **File context**: Files are automatically shared with Claude
+- **Inline diffs**: View and apply Claude's code changes directly in editor
+
+### JetBrains IDEs (IntelliJ, PyCharm, WebStorm, etc.)
+- **Plugin**: Install "Claude Code" from JetBrains marketplace (beta)
+- **Shortcuts**: Same as VSCode - **Cmd+Esc** (Mac) or **Ctrl+Esc** (Windows/Linux)
+- **File references**: Use **Cmd+Option+K** (Mac) or **Alt+Ctrl+K** (Linux/Windows)
+
+### Terminal Usage (Any IDE)
+- **Start session**: `claude` (interactive mode)
+- **Continue**: `claude --continue` or `claude -c`
+- **File context**: `claude @filename` or `claude @path/to/file`
+- **Project context**: `claude --add-dir /path/to/project`
+
 ## Configuration Structure
 
 ```
@@ -146,7 +194,7 @@ nvim
 │       ├── completion.lua      # Autocompletion
 │       ├── gitsigns.lua        # Git integration
 │       ├── github.lua          # GitHub integration
-│       ├── avante.lua          # AI integration
+│       ├── claude.lua          # Claude Code integration
 │       └── ui.lua              # Theme & statusline
 └── neovim-ide-user-manual.md   # Complete user guide
 ```

@@ -67,3 +67,56 @@ keymap.set("n", "<leader>dr", function() require("dap").repl.open() end, { desc 
 keymap.set("n", "<leader>dl", function() require("dap").run_last() end, { desc = "[D]ebug [L]ast" })
 keymap.set("n", "<leader>dt", function() require("dap").terminate() end, { desc = "[D]ebug [T]erminate" })
 keymap.set("n", "<leader>du", function() require("dapui").toggle() end, { desc = "[D]ebug [U]I toggle" })
+
+-- Claude Code integration (conversational AI experience)
+local function claude_interactive()
+  -- Start a new interactive Claude session
+  vim.cmd("terminal claude")
+end
+
+local function claude_continue()
+  -- Continue the most recent Claude conversation
+  vim.cmd("terminal claude --continue")
+end
+
+local function claude_with_file()
+  -- Start Claude with current file as context
+  local current_file = vim.fn.expand("%:p")
+  if current_file ~= "" then
+    local cmd = string.format("terminal claude '@%s'", current_file)
+    vim.cmd(cmd)
+  else
+    vim.cmd("terminal claude")
+  end
+end
+
+local function claude_with_selection()
+  -- Get selected text and start Claude with it as context
+  local start_pos = vim.fn.getpos("'<")
+  local end_pos = vim.fn.getpos("'>")
+  local lines = vim.fn.getline(start_pos[2], end_pos[2])
+  local selected_text = table.concat(lines, "\n")
+  
+  -- Create temporary file with selected content
+  local temp_file = vim.fn.tempname() .. ".txt"
+  vim.fn.writefile(vim.split(selected_text, "\n"), temp_file)
+  
+  local cmd = string.format("terminal claude '@%s'", temp_file)
+  vim.cmd(cmd)
+end
+
+local function claude_project_context()
+  -- Start Claude with current directory context
+  local cmd = string.format("terminal claude --add-dir '%s'", vim.fn.getcwd())
+  vim.cmd(cmd)
+end
+
+-- Claude Code keybindings for conversational experience
+keymap.set("n", "<leader>cc", claude_interactive, { desc = "[C]laude [C]onversational session" })
+keymap.set("n", "<leader>cr", claude_continue, { desc = "[C]laude [R]esume last conversation" })
+keymap.set("n", "<leader>cf", claude_with_file, { desc = "[C]laude with current [F]ile context" })
+keymap.set("v", "<leader>cs", claude_with_selection, { desc = "[C]laude with [S]election context" })
+keymap.set("n", "<leader>cp", claude_project_context, { desc = "[C]laude with [P]roject context" })
+keymap.set("n", "<leader>ch", function() 
+  vim.cmd("terminal claude --help") 
+end, { desc = "[C]laude [H]elp" })
